@@ -128,9 +128,9 @@ builder.Services.AddCors(options =>
             ?? Array.Empty<string>();
 
         policy
-            .WithOrigins(allowedOrigins)
-            .AllowAnyHeader()
-            .AllowAnyMethod();
+    .SetIsOriginAllowed(_ => true)
+    .AllowAnyHeader()
+    .AllowAnyMethod();
     });
 });
 
