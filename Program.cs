@@ -127,8 +127,22 @@ builder.Services.AddCors(options =>
             .Get<string[]>()
             ?? Array.Empty<string>();
 
-        policy
-    .SetIsOriginAllowed(_ => true)
+     policy
+    .SetIsOriginAllowed(origin =>
+    {
+        if (allowedOrigins.Any(o =>
+            o == origin)) return true;
+
+        // Allow all Netlify subdomains
+        if (origin.EndsWith(".netlify.app"))
+            return true;
+
+        // Allow Telegram web
+        if (origin.Contains("telegram.org"))
+            return true;
+
+        return false;
+    })
     .AllowAnyHeader()
     .AllowAnyMethod();
     });
