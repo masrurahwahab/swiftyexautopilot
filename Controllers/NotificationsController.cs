@@ -8,8 +8,7 @@ namespace SwiftyAutopilot.Controllers;
 public class NotificationsController(
     ILogRepository logRepository) : ControllerBase
 {
-    // GET api/notifications
-    // Returns recent execution logs for current user
+  
     [HttpGet]
     public async Task<IActionResult> GetNotifications(
         [FromQuery] int days = 7)
