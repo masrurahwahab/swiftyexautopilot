@@ -11,9 +11,7 @@ public class AiController(
     IAiService aiService,
     IRuleService ruleService) : ControllerBase
 {
-    // POST api/ai/suggest
-    // User sends a plain English goal
-    // AI returns suggested rules
+   
     [HttpPost("suggest")]
     public async Task<IActionResult> SuggestRules(
         [FromBody] AiSuggestRequest request)
@@ -54,8 +52,7 @@ public class AiController(
         }
     }
 
-    // POST api/ai/activate
-    // User accepts AI suggestions → save as real rules
+  
     [HttpPost("activate")]
     public async Task<IActionResult> ActivateSuggestions(
         [FromBody] ActivateSuggestionsRequest request)
@@ -74,7 +71,7 @@ public class AiController(
         {
             try
             {
-                // Map AI suggestion → CreateRuleRequest
+                
                 var ruleRequest = MapToRuleRequest(suggestion);
 
                 var rule = await ruleService
@@ -89,7 +86,7 @@ public class AiController(
             }
             catch (ArgumentException ex)
             {
-                // Skip invalid suggestions, keep going
+               
                 created.Add(new
                 {
                     name    = suggestion.Name,
@@ -106,7 +103,7 @@ public class AiController(
         });
     }
 
-    // ── Private Helpers ───────────────────────────────
+   
     private long GetTelegramId()
     {
         return (long)HttpContext.Items["TelegramId"]!;
@@ -115,7 +112,7 @@ public class AiController(
     private static CreateRuleRequest MapToRuleRequest(
         AiRuleSuggestion suggestion)
     {
-        // Parse enums from AI string response
+       
         var triggerType = Enum.Parse<Models.Enums.TriggerType>(
             suggestion.TriggerType, ignoreCase: true);
 
@@ -138,7 +135,7 @@ public class AiController(
             BillType:          suggestion.BillType);
     }
 }
-// ── Request DTOs ──────────────────────────────────────
+
 public record AiSuggestRequest(
     [property: JsonPropertyName("goal")]
     string Goal);
