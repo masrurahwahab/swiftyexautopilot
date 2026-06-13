@@ -8,7 +8,7 @@ namespace SwiftyAutopilot.Controllers;
 public class ChatController(
     IChatService chatService) : ControllerBase
 {
-    // POST api/chat
+    
     [HttpPost]
     public async Task<IActionResult> Chat(
         [FromBody] ChatRequest request)
@@ -44,7 +44,7 @@ public class ChatController(
         (long)HttpContext.Items["TelegramId"]!;
 }
 
-// ── DTOs ──────────────────────────────────────────────
+
 public record ChatRequest(
     string Message,
     List<ChatMessage>? History);
